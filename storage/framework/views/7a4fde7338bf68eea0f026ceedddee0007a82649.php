@@ -1,13 +1,25 @@
-@extends('frontend.user.seller.seller-master')
-@section('site-title')
-    {{__('Activity')}}
-@endsection
-@section('style')
-<link rel="stylesheet" href="{{asset('assets/common/css/flatpickr.min.css')}}">
-@endsection
-@section('content')
+
+<?php $__env->startSection('site-title'); ?>
+    <?php echo e(__('Activity')); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('style'); ?>
+<link rel="stylesheet" href="<?php echo e(asset('assets/common/css/flatpickr.min.css')); ?>">
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
   
-    <x-frontend.seller-buyer-preloader/>
+    <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.frontend.seller-buyer-preloader','data' => []]); ?>
+<?php $component->withName('frontend.seller-buyer-preloader'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?>
 
     <!-- Dashboard area Starts -->
     <div class="body-overlay"></div>
@@ -19,17 +31,28 @@
                         <i class="las la-bars"></i>
                     </div>
                 </div>
-                @include('frontend.user.seller.partials.sidebar')
+                <?php echo $__env->make('frontend.user.seller.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                 <div class="dashboard-right">
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="dashboard-settings margin-top-40">
-                                <h2 class="dashboards-title"> {{__('Client Projects')}} </h2>
+                                <h2 class="dashboards-title"> <?php echo e(__('Client Projects')); ?> </h2>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="mt-5"> <x-msg.error/> </div>
+                    <div class="mt-5"> <?php if (isset($component)) { $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4 = $component; } ?>
+<?php $component = $__env->getContainer()->make(Illuminate\View\AnonymousComponent::class, ['view' => 'components.msg.error','data' => []]); ?>
+<?php $component->withName('msg.error'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php $component->withAttributes([]); ?>
+<?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4)): ?>
+<?php $component = $__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4; ?>
+<?php unset($__componentOriginalc254754b9d5db91d5165876f9d051922ca0066f4); ?>
+<?php endif; ?> </div>
                     <div class="dashboard-service-single-item border-1 margin-top-40">
                         <div class="row">
                             <table class="table">
@@ -37,52 +60,51 @@
                                     <th>Project ID</th>
                                     <th>Project Name</th>
                                     <th>Type</th>
-                                    {{-- <th>Priority</th>
-                                    <th>budget</th> --}}
+                                    
                                     <th>Delivery (days)</th>
                                     <th>Assigned</th>
                                     <th>Started</th>
                                     <th>Status</th>
                                 </tr>
-                                @foreach ($projects as $project)     
+                                <?php $__currentLoopData = $projects; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $project): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>     
                                     <tr>
-                                        <td>{{ $project->id }}.</td>
-                                        <td>{{ Str::ucfirst($project->hasRequirement->requirement_name) }}</td>
+                                        <td><?php echo e($project->id); ?>.</td>
+                                        <td><?php echo e(Str::ucfirst($project->hasRequirement->requirement_name)); ?></td>
                                         <td>
-                                            @if($project->convert_type=='single-project')
+                                            <?php if($project->convert_type=='single-project'): ?>
                                                 <span class="badge badge-info">Single</span>
-                                            @else 
+                                            <?php else: ?> 
                                                 <span class="badge badge-info">Milestone</span>
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
-                                        {{-- <td>{{ $project->hasRequirement->priority }}</td>
-                                        <td>${{ number_format($project->haveProjectDetails->sum('service_provider_cost'), 2) }}</td> --}}
-                                        <td>{{ $project->haveProjectDetails->sum('timeframe') }} days</td>
-                                        <td>{{ date('d, M-Y', strtotime($project->created_at)) }}</td>
+                                        
+                                        <td><?php echo e($project->haveProjectDetails->sum('timeframe')); ?> days</td>
+                                        <td><?php echo e(date('d, M-Y', strtotime($project->created_at))); ?></td>
                                         <td>
-                                            @if($project->status!=0)
-                                                {{ date('d, M-Y', strtotime($project->updated_at)) }}
-                                            @else 
+                                            <?php if($project->status!=0): ?>
+                                                <?php echo e(date('d, M-Y', strtotime($project->updated_at))); ?>
+
+                                            <?php else: ?> 
                                                 --
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                         <td>
-                                            @if($project->status==0)
-                                                @if(!empty($project->hasPayment))
-                                                    <button class="btn btn-success btn-sm start-reject-btn" data-client-id="{{ $project->client_id }}" value="{{ $project->id }}">Start/Reject</button>
-                                                @else 
+                                            <?php if($project->status==0): ?>
+                                                <?php if(!empty($project->hasPayment)): ?>
+                                                    <button class="btn btn-success btn-sm start-reject-btn" data-client-id="<?php echo e($project->client_id); ?>" value="<?php echo e($project->id); ?>">Start/Reject</button>
+                                                <?php else: ?> 
                                                     <span class="badge badge-warning">Waiting for fund</span>
-                                                @endif
-                                            @elseif($project->status==1)
+                                                <?php endif; ?>
+                                            <?php elseif($project->status==1): ?>
                                                 <span class="badge badge-info">Started</span>
-                                            @elseif($project->status==2)
+                                            <?php elseif($project->status==2): ?>
                                                 <span class="badge badge-success">Completed</span>
-                                            @elseif($project->status==2)
+                                            <?php elseif($project->status==2): ?>
                                                 <span class="badge badge-danger">Cancelled</span>
-                                            @endif
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
-                                @endforeach
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             </table>
                         </div>
                     </div>
@@ -124,9 +146,9 @@
         </div>
     </div>
     
-@endsection  
+<?php $__env->stopSection(); ?>  
 
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
 <script>
     $(document).on('click', '.save-changes-btn', function(){
         var client_id = $('#client-id').val();
@@ -134,7 +156,7 @@
         var status = $('#project-status').val();
         var description = $('#project-description').val();
         $.ajax({
-            url : "{{ route('seller.project-status') }}",
+            url : "<?php echo e(route('seller.project-status')); ?>",
             data : {client_id:client_id, project_id:project_id, status:status, description:description},
             type : 'GET',
             success : function(response){
@@ -158,7 +180,7 @@
             status = $(this).attr('data-status');
         }
         $.ajax({
-            url : "{{ route('seller.client-projects') }}",
+            url : "<?php echo e(route('seller.client-projects')); ?>",
             data : {status:status, client_id:client_id},
             type : 'GET',
             success : function(response){
@@ -174,14 +196,14 @@
 
         var files = $('#attachment')[0].files;
         var fd = new FormData();
-        fd.append('_token',"{{ csrf_token() }}");
+        fd.append('_token',"<?php echo e(csrf_token()); ?>");
         fd.append('attachment', files[0]);
         fd.append('project_details_id', project_details_id);
         fd.append('status', status);
         fd.append('describe', describe);
 
         $.ajax({
-            url : "{{ route('seller.delivery.store') }}",
+            url : "<?php echo e(route('seller.delivery.store')); ?>",
             data : fd,
             type : 'POST',
             cache: false,
@@ -197,7 +219,7 @@
         e.preventDefault();
         var milestone_id = $(this).attr('data-milestone-id');
         $.ajax({
-            url : "{{ route('seller.delivery') }}",
+            url : "<?php echo e(route('seller.delivery')); ?>",
             data : {'milestone_id' : milestone_id},
             type : 'GET',
             success : function(response){
@@ -208,7 +230,7 @@
     $(document).on('click', '.activity-timeline', function(){
         var project_id = $(this).attr('data-project-id');
         $.ajax({
-            url : "{{ route('seller.timeline') }}",
+            url : "<?php echo e(route('seller.timeline')); ?>",
             data : {'project_id' : project_id},
             type : 'GET',
             success : function(response){
@@ -219,7 +241,7 @@
     $(document).on('click', '.activity-chat', function(){
         var milestone_id = $(this).attr('data-milestone-id');
         $.ajax({
-            url : "{{ route('seller.chat') }}",
+            url : "<?php echo e(route('seller.chat')); ?>",
             data : {'milestone_id' : milestone_id},
             type : 'GET',
             success : function(response){
@@ -236,13 +258,13 @@
 
         var files = $('#attachment')[0].files;
         var fd = new FormData();
-         fd.append('_token',"{{ csrf_token() }}");
+         fd.append('_token',"<?php echo e(csrf_token()); ?>");
          fd.append('attachment', files[0]);
          fd.append('project_details_id', project_details_id);
          fd.append('message', message);
 
         $.ajax({
-            url : "{{ route('seller.chat.store') }}",
+            url : "<?php echo e(route('seller.chat.store')); ?>",
             data : fd,
             type : 'POST',
             cache: false,
@@ -269,7 +291,7 @@
 
     function fatchChat(project_details_id, reciever_id){
         $.ajax({
-            url : "{{ route('seller.chat.all') }}",
+            url : "<?php echo e(route('seller.chat.all')); ?>",
             data : {'reciever_id' : reciever_id, 'project_details_id' : project_details_id},
             type : 'GET',
             success : function(response){
@@ -293,7 +315,7 @@
     /* $(document).on('click', '.view-details-btn', function(){
         var project_id = $(this).val();
         $.ajax({
-            url : "{{ route('seller.get_more_details') }}",
+            url : "<?php echo e(route('seller.get_more_details')); ?>",
             data : {'project_id' : project_id},
             type : 'GET',
             success : function(response){
@@ -303,4 +325,5 @@
     }); */
     
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('frontend.user.seller.seller-master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\qixer-master\resources\views/frontend/user/seller/activity/activity.blade.php ENDPATH**/ ?>

@@ -15,8 +15,8 @@
                 <th>Project ID</th>
                 <th>Project Name</th>
                 <th>Type</th>
-                <th>Priority</th>
-                <th>budget</th>
+                {{-- <th>Priority</th>
+                <th>budget</th> --}}
                 <th>Delivery (days)</th>
                 <th>Assigned</th>
                 <th>Started</th>
@@ -33,8 +33,8 @@
                             <span class="badge badge-info">Milestone</span>
                         @endif
                     </td>
-                    <td>{{ $project->hasRequirement->priority }}</td>
-                    <td>${{ number_format($project->haveProjectDetails->sum('service_provider_cost'), 2) }}</td>
+                    {{-- <td>{{ $project->hasRequirement->priority }}</td>
+                    <td>${{ number_format($project->haveProjectDetails->sum('service_provider_cost'), 2) }}</td> --}}
                     <td>{{ $project->haveProjectDetails->sum('timeframe') }} days</td>
                     <td>{{ date('d, M-Y', strtotime($project->created_at)) }}</td>
                     <td>
@@ -49,7 +49,8 @@
                             @if(!empty($project->hasPayment))
                                 <button class="btn btn-success btn-sm start-reject-btn" data-client-id="{{ $project->client_id }}" value="{{ $project->id }}">Start/Reject</button>
                             @else 
-                                <span class="badge badge-warning">Waiting for fund</span>
+                                {{-- <span class="badge badge-warning">Waiting for fund</span> --}}
+                                <span class="badge badge-warning">Started</span>
                             @endif
                         @elseif($project->status==1)
                             <span class="badge badge-info">Started</span>

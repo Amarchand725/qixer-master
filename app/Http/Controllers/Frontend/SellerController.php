@@ -57,7 +57,8 @@ class SellerController extends Controller
     public function sellerActivity()
     {
         if(Auth::user()->user_type==0){
-            return view('frontend.user.seller.activity.activity');
+            $projects = Project::where('service_provider_id', Auth::user()->id)->get();
+            return view('frontend.user.seller.activity.activity', compact('projects'));
         }elseif(Auth::user()->user_type==1){
             /* $payment_gateways = StaticOption::where('id', '>', 0)
             ->where('option_name', 'paypal_gateway')

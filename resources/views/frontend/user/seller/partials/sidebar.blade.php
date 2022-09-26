@@ -32,15 +32,15 @@
                     <a href="{{ route('seller.activity') }}"> <i class="las la-th"></i> {{__('Activity')}} </a>
                     @if(request()->is('seller/activity*'))
                         @php 
-                            $projects = App\Project::where('service_provider_id', Auth::user()->id)->groupby('service_provider_id')->get();
+                            $projects = App\Project::where('service_provider_id', Auth::user()->id)->where('status', 1)->get();
                         @endphp
                         <div id="MainMenu">
                             <div class="list-group">
                                 <a href="#activity" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#MainMenu"><i class="las la-user"></i> {{__('Clients')}}</a>
                                 <div class="collapse" id="activity">
                                     @foreach ($projects as $project_key=>$project)
-                                        <a href="#project-{{ $project_key }}" class="list-group-item list-group-item-success client-projects" data-client-id="{{ $project->client_id }}" data-toggle="collapse" data-parent="#MainMenu"> {{ Str::ucfirst($project->client->name) }}</a>
-                                        <div class="collapse" id="project-{{ $project_key }}">
+                                        <a href="#project" class="list-group-item list-group-item-success client-projects" data-client-id="{{ $project->client_id }}" data-toggle="collapse" data-parent="#MainMenu"> {{ Str::ucfirst($project->client->name) }}</a>
+                                        <div class="collapse" id="project">
                                             @if($project->status == 1)
                                             <a href="#current-project" id="current-project-label" class="list-group-item list-group-item-success current-project" data-project-id="{{ $project->id }}" data-toggle="collapse" data-parent="#current-project">Current Project ({{ Str::ucfirst($project->hasRequirement->requirement_name) }}) <i class="fa fa-caret-down"></i></a>
                                             <div class="collapse list-group-submenu" id="current-project">
@@ -79,7 +79,7 @@
                                                 @endif
                                             </div>
                                             @endif
-                                            <a href="#past-project" class="list-group-item list-group-item-success" data-toggle="collapse" data-parent="#past-project">Past Project <i class="fa fa-caret-down"></i></a>
+                                            <a href="#past-project" class="list-group-item list-group-item-success client-projects" data-client-id="{{ $project->client_id }}" data-toggle="collapse" data-parent="#past-project">Past Project </a>
                                             <div class="collapse list-group-submenu" id="past-project">
                                                 @if($project->status == 2 || $project->status == 3)
                                                     <a href="#" class="list-group-item list-group-item-success">{{ Str::ucfirst($project->hasRequirement->requirement_name) }}</a>

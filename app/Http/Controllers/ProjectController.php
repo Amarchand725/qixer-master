@@ -194,8 +194,12 @@ class ProjectController extends Controller
     public function clientProjects(Request $request)
     {
         if(Auth::user()->user_type==0){ //0==seller
-            $client_projects = Project::where('client_id', $request->client_id)->where('service_provider_id', Auth::user()->id)->get();
             $client = User::where('id', $request->client_id)->first();
+            if($request->status==''){
+                $client_projects = Project::where('client_id', $request->client_id)->where('service_provider_id', Auth::user()->id)->get();
+            }else{
+                $client_projects = Project::where('client_id', $request->client_id)->where('service_provider_id', Auth::user()->id)->where('status',  2)->orWhere('status', 3)->get();
+            }
             return (string) view('frontend.user.seller.activity.client-projects', compact('client_projects', 'client'));
         }elseif(Auth::user()->user_type==1){ //client
             if($request->status==''){

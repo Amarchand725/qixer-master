@@ -1,3 +1,4 @@
+
 <?php $__env->startSection('styles'); ?>
     <style>
         .card {
